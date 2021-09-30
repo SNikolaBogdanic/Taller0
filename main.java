@@ -37,6 +37,7 @@ public class main {
 		int cantidadPeliculas = lecturaCantPeliculas(cartelera, estreno, recaudacionTotal, salasPeliculas);
 		int cantidadClientes = lecturaCantPersonas(nombresApellidos, Ruts, Claves, Saldos);
 		calculoTotalHabilitados(pasesMovilidad, Ruts, cantidadClientes);
+		byte opcion = inicioPrograma(Ruts,Claves,cantidadClientes);
 		
 		
 	}
@@ -133,6 +134,95 @@ public class main {
 		archivo.close();
 		
 		return cant;
+	}
+	
+	public static byte inicioPrograma(String[] Ruts, String[] Claves, int cantidadClientes) {
+		
+		Scanner teclado = new Scanner(System.in);
+		System.out.println("¡Bienvenido a Cuevana!");
+		while(true) {
+			System.out.print("\nPor favor, ingrese su rut: ");
+			String cadena = teclado.nextLine();
+			if (cadena == "ADMIN") {
+				System.out.print("\nINGRESAR CONTRASEÑA DE ADMINISTRADOR: ");
+				cadena = teclado.nextLine();
+				if (cadena == "ADMIN") {
+					System.out.print("\nACCESO A MENU ADMINISTRADOR CONCEDIDO.");
+					return 2;
+				}else {
+					System.out.print("\nACCESO A MENU ADMINISTRADOR DENEGADO.");
+					continue;
+				}
+			}
+			
+			ajusteFormatoRut(cadena);
+			
+			int rutp = index(Ruts, cadena, cantidadClientes);
+			if (rutp != -1) {
+				System.out.print("\nIngrese su contraseña: ");
+				cadena = teclado.nextLine();
+				if (cadena == Claves[rutp]) {
+					System.out.print("\n¡Acceso Válido!");
+					return 1;
+				}
+			}
+		}
+		
+	}
+	
+	public static boolean ajusteFormatoRut(String entrada) {
+		String[] rawRut = entrada.split("");
+		String trueRut;
+		int largo = rawRut.length;
+		
+		if(largo < 7) {
+			System.out.print("¡Este Rut es muy corto!");
+			return false;
+		}
+		
+		String sDV = rawRut[largo-1];
+		//Se saca el dígito verificador de la última parte de la string[] del RUT, como String.
+		
+		if (rawRut[largo-2] == "-" || rawRut[largo-2] == " ") {
+			rawRut[largo-2] = sDV;
+			largo--;
+			//Aquí se "corta" el guión o espacio del RUT para propósitos de análisis del mismo.
+		}
+		
+		int DV;
+		int workvar;
+		int workvar2;
+		int workvar3;
+		int workvar4 = 0;
+		//Declaración de variables de trabajo.
+		
+		if (sDV == "k" || sDV == "K") {
+			DV = 10;
+		} else {
+			if (sDV == "0"){
+				DV = 11;
+			}else {
+				DV = Integer.parseInt(sDV);
+			}
+		}
+		workvar = 11 - DV;
+		//Se determina el dígito verificador.
+		
+		for (int i = 0; i<largo;i++) {
+			workvar3 = ((i%6)+2);
+			workvar2 = Integer.parseInt(rawRut[largo-(i+2)]);
+			workvar4 = workvar4+(workvar3*workvar2);
+		}
+		
+		if (workvar4%11 == workvar) {
+			//Aquí se debe de ejecutar el programa que convierta a "entrada" en un Rut de formato x.xxx.xxx-x
+			return true;
+		}
+		else {
+			System.out.print("¡Este Rut no es válido!");
+			return false;
+		}
+		
 	}
 
 }
