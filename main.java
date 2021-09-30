@@ -37,6 +37,86 @@ public class main {
 		int cantidadPeliculas = lecturaCantPeliculas(cartelera, estreno, recaudacionTotal, salasPeliculas);
 		int cantidadClientes = lecturaCantPersonas(nombresApellidos, Ruts, Claves, Saldos);
 		calculoTotalHabilitados(pasesMovilidad, Ruts, cantidadClientes);
+		Scanner sesion = new scanner(System.in);
+		String RutActual;
+		System.out.print("Iniciar Sesion");
+		System.out.print("Ingrese Rut:");
+		RutActual= sesion.nextString();
+		String RutActual1 = RutActual.replace(".", "");
+        	String RutActual2 = RutActual1.replace("-", "");
+		if (Ruts.contains(RutActual2)){
+			Scanner contraseña= new scanner(System.in);
+			System.out.print("Ingrese Contraseña:");
+			String password;
+			password = contraseña.nextString();
+			//hacer control de error
+			System.out.print("Ha ingresado Correctamente.");
+			String menu= 1;
+			while (menu != -1()){
+				Scanner opciones= new scanner(System.in);
+				String opcion;
+				System.out.print("Eliga alguna de las siguientes opciones.");
+				System.out.print("a) Comprar entrada.");
+				System.out.print("b) Informacion de usuario.");
+				System.out.print("c) Devolucion Entrada.");
+				System.out.print("d) Cartelera.");
+				System.out.print("Elija una opcion.(a,b,c,d)");
+				opcion=opciones.nextString();
+				if (opcion.equalsIgnoreCase("a")){
+					Scanner a= new scanner(System.in)
+					String nombrepelicula;
+					System.out.print("Ingrese Nombre de pelicula:");
+					nombrepelicula=a.nextString();
+					if(cartelera.contains(nombrepelicula){
+						
+					}
+				
+			}
+			
+			
+		}	
+		else {
+			Scanner Registro= new scanner(System.in);
+			String registro;
+			System.out.print("Usuario No registrado.);
+			System.out.print("Desea registrarse(Si,No):");
+			registro=Registro.nextString();
+			if(registro.equalsIgnoreCase("no"){
+				break;
+			}
+			if (registro.equalsIgnoreCase("si"){
+				Scanner newpassword= new scanner(System.in);
+				String newpass;
+				System.out.print("Ingrese Su nueva Contraseña de registro:");
+				newpass = newpassword.nextString();
+				Ruts.add(RutActual2);
+				Claves.add(newpass);
+			}
+		}	
+				
+			
+			
+			
+	
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	
+				
+			}
+			
 		
 		
 	}
