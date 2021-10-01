@@ -1,0 +1,71 @@
+public static int lecturaCantPeliculas(String[] cartelera, boolean[] estreno, int[] RecaudacionTotal,
+			String[][] peliculasxSala) throws IOException{
+		//Estándar de lectura de archivos.
+		Scanner archivo = new Scanner(new File("Peliculas.txt"));
+		int cant = 0;
+		int[][] salasPeliculas = new int[16][6];
+		
+		//Relleno salasPeliculas
+		for (int p = 0; p<16;p++) {
+			for (int q = 0;q<6;q++) {
+				salasPeliculas[p][q] = 0;
+			}
+		}
+		
+		boolean es_estreno;
+		while (archivo.hasNextLine()) {
+			es_estreno = false;
+			String linea = archivo.nextLine();
+			String[] datos = linea.split(",");
+			//Estándar de lectura de archivos.
+			
+			//Rellenado de base de datos de cartelera.
+			String pelicula = datos[0];
+			String tipo = datos[1];
+			if (tipo == "estreno") {
+				es_estreno = true;
+			}
+			int recaudacion = Integer.parseInt(datos[2]);
+			for (int i = 3; i < 14;i = i+2) {
+				if (datos[i] == null){
+					break;
+				}
+				
+				int numeroSala = Integer.parseInt(datos[i]);
+				String horario = datos[i+1];
+				
+				if(horario == "T") {
+					numeroSala = numeroSala+3;
+				}
+				salasPeliculas[cant][(i-3)/2] = numeroSala;
+			}
+			
+			cartelera[cant] = pelicula;
+			estreno[cant] = es_estreno;
+			RecaudacionTotal[cant] = recaudacion;
+			
+			cant++;
+		}
+		archivo.close();
+		
+		int workvarsala;
+		int workvarhora;
+		int countsala = 0;
+		int counthora = 0;
+		
+		
+		for (int m = 0;m<16;m++) {
+			for(int n = 0; n<6;n++) {
+				if (salasPeliculas[m][n] == 0) {
+					break;
+				}
+				workvarsala = salasPeliculas[m][n]%3;
+				workvarhora = salasPeliculas[m][n]/3;
+				
+				peliculasxSala[workvarsala][workvarhora] = cartelera[m];
+				
+			}
+		}
+		
+		return cant;
+	}
