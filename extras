@@ -1,0 +1,69 @@
+	public static byte inicioPrograma(String[] Ruts, String[] Claves, int cantidadClientes) {
+		//Inicialización Scanner
+		Scanner teclado = new Scanner(System.in);
+		boolean x;
+		System.out.println("¡Bienvenido a Cuevana!");
+		while(true) {
+			System.out.print("\nPor favor, ingrese su rut: ");
+			String cadena = teclado.nextLine();
+			if (cadena == "ADMIN") {
+				System.out.print("\nINGRESAR CONTRASEÑA DE ADMINISTRADOR: ");
+				cadena = teclado.nextLine();
+				if (cadena == "ADMIN") {
+					System.out.print("\nACCESO A MENU ADMINISTRADOR CONCEDIDO.");
+					return 2;
+				}else {
+					System.out.print("\nACCESO A MENU ADMINISTRADOR DENEGADO. RESETEANDO...");
+					continue;
+				}
+			}
+			
+			//Transformación del String ingresado de Rut a un String[], y obtención de su largo.
+			String[] rawRut = cadena.split("");
+			int largo = rawRut.length;
+			
+			//Función per se, que guarda el rut final en rawRut[0].
+			boolean ruti = ajusteFormatoRut(rawRut, largo);
+			
+			if (!ruti) {
+				System.out.print("\n¡Rut No válido!");
+				x = datoFail();
+				if (!x) {
+					continue;
+				}
+			}
+			//Extracción del Rut de rawRut.
+			cadena = rawRut[0];
+			
+			int rutp = index(Ruts, cadena, cantidadClientes);
+			if (rutp != -1) {
+				System.out.print("\nIngrese su contraseña: ");
+				cadena = teclado.nextLine();
+				if (cadena == Claves[rutp]) {
+					System.out.print("\n¡Acceso Válido!");
+					return 1;
+				} else {
+					System.out.print("\n¡Acceso Denegado!");
+					x = datoFail();
+					if (!x) {
+						continue;
+					}
+				}
+			}
+		}
+    
+    	public static boolean datoFail() {
+		Scanner teclado = new Scanner(System.in);
+		do {
+			System.out.print("\n¿Desea intentarlo de nuevo o salir?\nS = salir, R = reintentar.");
+			String var = teclado.nextLine();
+			if (var.equals("S")) {
+				return false;
+			} else if (var.equals("R")) {
+				return true;
+			}
+			else {
+				System.out.print("\nEntrada no válida.");
+			}
+		}while(true);
+	}
