@@ -1,0 +1,23 @@
+	public static void mostrarCartelera(String[][] salasPeliculas) {
+		String workstring;
+		for (int i = 0; i<2; i++) {
+			if (i == 0) {
+				workstring = " de la mañana:";
+			}
+			else if (i==1) {
+				workstring = " de la tarde:";
+			}
+			else {
+				workstring = " [ERROR]:";
+			}
+				
+			System.out.println("\nPelículas"+workstring);
+			for (int j=0; j<3; j++) {
+				workstring = salasPeliculas[j][i];
+				if (workstring.equals(null)) {
+					workstring = "[SALA VACÍA]";
+				}
+				System.out.print(" | SALA "+(j+1)+": "+ workstring+" |");
+			}
+		}
+	}
